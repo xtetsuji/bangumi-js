@@ -9,7 +9,17 @@ NODE_ENV = chrome-extension
 usage:
 	@echo "Usage: make [build|tree]"
 
-build:
+rewrite-build-date:
+	perl -pi \
+	-e 's{(?<=^const BUILD_DATE = ).*}{ $$date = localtime; qq["$$date";];}e' \
+		$(SRC_DIR)/handler/beta_build_date_handler.ts
+
+clear-build-date:
+	perl -pi \
+	-e 's{(?<=^const BUILD_DATE = ).*}{ qq["";];}e' \
+		$(SRC_DIR)/handler/beta_build_date_handler.ts
+
+build: rewrite-build-date
 	$(ESBUILD) \
 		--bundle \
 		--platform=node \

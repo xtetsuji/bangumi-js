@@ -1,0 +1,11 @@
+node_modules
+dist
+dists
+.yarn
+.env
+
+
+.DS_Store
+*.pem
+
+/local

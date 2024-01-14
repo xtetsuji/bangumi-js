@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Gコード番組表→Googleカレンダー",
+    "version": "0.1.0",
+    "description": "[BETA] Gコード番組表からGoogleカレンダーに番組を登録する",
+    "content_scripts": [{
+        "js": ["content_script.js"],
+        "matches": ["https://bangumi.org/tv_events/*", "https://bangumi.org/radio_events/*"]
+    }]
+}

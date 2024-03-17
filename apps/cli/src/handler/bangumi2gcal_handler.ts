@@ -18,16 +18,27 @@ export class Bangumi2GcalHandler {
         const DEBUG = Boolean(process.env.BANGUMI_DEBUG);
         // TODO: エラー処理どうしよう
         try {
-            const epURL = await Bangumi2GcalService.getGCalEpURLFromBangumiURL(bangumiURL);
+            if ( DEBUG && globalThis['document'] ) {
+                console.info('globalThis に document が既に存在します');
+            }
+            const document = await Bangumi2GcalService.getHappyDomDocument(bangumiURL);
+            if ( DEBUG ) {
+                console.log(`document.body = ${document.body}`);
+                console.log(`document.querySelector('body') = ${document.querySelector('body')}`);
+            }
+            const epURL = await Bangumi2GcalService.getGCalEpURLFromBangumiURL(bangumiURL, document);
+            // 実際に URL を標準出力に出力する
+            // eslint-disable-next-line no-console
             console.log(epURL);
-            return Bangumi2GcalHandler.RETURN_CODE_SUCCESS;
-        } catch (e) {
+            return this.RETURN_CODE_SUCCESS;
+        } catch (e: unknown) {
             if (DEBUG) {
                 // re-throw
                 throw e;
             }
-            console.error(`エラーが発生しました: ${e.message}`);
-            return Bangumi2GcalHandler.RETURN_CODE_ERROR;
+            console.error(`Bangumi2GcalService: エラーが発生しました: ${e}`);
+            return this.RETURN_CODE_ERROR;
         }
     }
+
 }

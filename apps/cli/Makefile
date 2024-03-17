@@ -1,6 +1,6 @@
 # -*- makefile -*-
 
-ESBUILD = ../../node_modules/.bin/esbuild
+ESBUILD = npx esbuild
 SRC_DIR = src
 DIST_DIR = dist
 
@@ -10,12 +10,13 @@ usage:
 	@echo "Usage: make [build|tree|test]"
 
 build:
-	../../node_modules/.bin/esbuild \
+	$(ESBUILD) \
 		--bundle \
 		--platform=node \
 		--target=esnext \
 		--outfile=$(DIST_DIR)/bangumi2gcal.js \
-		$(SRC_DIR)/app/bangumi2gcal.ts 
+		$(SRC_DIR)/app/bangumi2gcal.ts
+	chmod +x $(DIST_DIR)/bangumi2gcal.js
 	wc -l $(DIST_DIR)/bangumi2gcal.js
 
 tree:

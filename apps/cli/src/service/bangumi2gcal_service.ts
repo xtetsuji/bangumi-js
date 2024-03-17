@@ -11,10 +11,13 @@ export class Bangumi2GcalService {
 
     /**
      * fetch インターフェースの大したことないラッパー
-     * @param {string} url 
-     * @returns {Promise<Response>}
+     * @param - URL
+     * @returns - URL のレスポンス結果から取り出した string で解決する Promise。ただし異常時は例外を投げる
      */
-    static async fetch(url: string | URL | Request, option?: Record<string, any>): Promise<Response> {
+    static async fetch(
+        url: string | URL | Request,
+        option?: Record<string, any>
+    ): Promise<Response> {
         // この fetch はグローバルの方の fetch
         const response = await fetch(url, {
             headers: {
@@ -42,10 +45,14 @@ export class Bangumi2GcalService {
 
     /**
      * 番組URLから Google カレンダーの Event Publisher URL を生成する。
-     * @param bangumiURL - 番組URL
+     * @param bangumiURL - 番組URL。これは詳細テキストに入れる URL として使われるだけで、この関数はこの URL へ HTTP リクエストを送ることはない。外部から自力で bangumiURL の内容を取得する必要がある場合は、第2引数の document を getHappyDomDocument(bangumiURL) などから作る必要がある。
+     * @param document - Document。DOM がすでにある場合は document を渡す。ない場合は getHappyDomDocument(bangumiURL) などから作る必要がある。
      * @returns - Google カレンダーの Event Publisher URL で解決する Promise
      */
-    static async getGCalEpURLFromBangumiURL(bangumiURL: string): Promise<string | undefined> {
+    static async getGCalEpURLFromBangumiURL(
+        bangumiURL: string,
+        document: Document
+    ): Promise<string | undefined> {
         // const response = await Bangumi2GcalService.fetch(bangumiURL);
         // if (!response.ok) {
         //     throw new Error(`fetch error: ${response.status} ${response.statusText}`);
@@ -63,8 +70,10 @@ export class Bangumi2GcalService {
         // document.body.innerHTML = bangumiContents;
 
         const info: BangumiInfo = BangumiDomain.parseDocument(document);
-
-        const epURL = BangumiDomain.createGoogleCalenderEventPublisherURL(info, bangumiURL);
+        const epURL = BangumiDomain.createGoogleCalenderEventPublisherURL(
+            info,
+            bangumiURL
+        );
         return epURL;
     }
 

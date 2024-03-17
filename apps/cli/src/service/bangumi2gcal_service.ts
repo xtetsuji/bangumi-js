@@ -96,12 +96,12 @@ export class Bangumi2GcalService {
 
     /**
      * 番組URLから JSDOM で document を生成する。現在は happy-dom を使うことにしているので使わない。呼び出したら必ず例外を発生させるようにしている。
-     * @param bangumiURL - 番組URL
+     * @param _bangumiURL - 番組URL
      * @returns - JSDOM から生成した document で解決する Promise
      */
-    static async getJSDOMDocument(bangumiURL: string): Promise<Document> {
+    static async getJSDOMDocument(_bangumiURL: string): Promise<Document> {
         throw new Error('getJSONDOMDocument() is outdated. Use getHappyDomDocument() instead.');
-        // const response = await Bangumi2GcalService.fetch(bangumiURL);
+        // const response = await Bangumi2GcalService.fetch(_bangumiURL);
         // if (!response.ok) {
         //     throw new Error(`fetch error: ${response.status} ${response.statusText}`);
         // }
